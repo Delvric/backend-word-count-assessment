@@ -38,9 +38,30 @@ Optional: define a helper function to avoid code duplication inside
 print_words() and print_top().
 
 """
-
 import sys
+import re
+import collections
 
+
+def print_words(filename):
+    frequency = {}
+    document_text = open(filename, 'r')
+    text_string = document_text.read().lower()
+    match_pattern = re.findall(r'\b[a-z]{3,15}\b', text_string)
+
+    for word in match_pattern:
+        count = frequency.get(word, 0)
+        frequency[word] = count + 1
+
+    frequency_list = frequency.keys()
+
+    for words in frequency_list:
+        print(words, frequency[words])
+
+
+def print_top(filename):
+    words = re.findall('\w+', open(filename).read().lower())
+    print collections.Counter(words).most_common(20)
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
 # You could write a helper utility function that reads a file
